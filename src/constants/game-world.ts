@@ -9,3 +9,6 @@ export const GAME_HEIGHT = ROWS * TILE_SIZE - TILE_SIZE * 2
 
 export const OFFSET_X = 0
 export const OFFSET_Y = TILE_SIZE / 2
+
+export const DEFAULT_POS_X = TILE_SIZE * 10
+export const DEFAULT_POS_Y = TILE_SIZE * 15
