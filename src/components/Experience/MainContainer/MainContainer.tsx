@@ -2,6 +2,7 @@ import { PropsWithChildren, useMemo } from 'react'
 import { Container, Sprite } from '@pixi/react'
 import { Texture } from '@pixi/core'
 
+import { Level } from '../../Levels/Level'
 import backgroundAsset from '../../../assets/space.jpg'
 
 interface MainContainerProps {
@@ -15,6 +16,7 @@ export const MainContainer = ({ canvasSize, children }: PropsWithChildren<MainCo
     <Container>
       <Sprite texture={backgroundTexture} width={canvasSize.width} height={canvasSize.height} />
       {children}
+      <Level />
     </Container>
   )
 }
