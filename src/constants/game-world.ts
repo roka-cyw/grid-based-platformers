@@ -1,3 +1,5 @@
+import { Direction } from '../types/common'
+
 export const TILE_SIZE = 32
 
 // I have a grid of 24x15 tiles and use some additional space
@@ -12,3 +14,14 @@ export const OFFSET_Y = TILE_SIZE / 2
 
 export const DEFAULT_POS_X = TILE_SIZE * 10
 export const DEFAULT_POS_Y = TILE_SIZE * 15
+
+export const DIRECTION_KEYS: Record<string, Direction> = {
+  KeyW: 'up',
+  KeyA: 'left',
+  KeyS: 'down',
+  KeyD: 'right',
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right'
+}
