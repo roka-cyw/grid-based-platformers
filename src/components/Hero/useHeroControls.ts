@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { Direction } from '../../types/common'
-import { DIRECTION_KEYS } from '../../constants/game-world'
+import { DIRECTION_KEYS } from '../../helpers/common'
 
 export const useHeroControls = () => {
   const [heldDirection, setHeldDirection] = useState<Direction[]>([])
@@ -15,8 +15,6 @@ export const useHeroControls = () => {
       if (isKeyDown) {
         return prev.includes(direction) ? prev : [direction, ...prev]
       }
-
-      console.log('arr', prev)
 
       return prev.filter(dir => dir !== direction)
     })

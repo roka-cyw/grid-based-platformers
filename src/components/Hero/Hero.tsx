@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react'
-import { Container, Sprite } from '@pixi/react'
+import { useCallback, useEffect, useRef } from 'react'
+import { Container, Sprite, useTick } from '@pixi/react'
 import { Texture } from '@pixi/core'
 
-import { DEFAULT_POS_X, DEFAULT_POS_Y } from '../../constants/game-world'
+import { DEFAULT_POS_X, DEFAULT_POS_Y, MOVE_SPEED } from '../../constants/game-world'
 import { useHeroControls } from './useHeroControls'
+import { Direction, Position } from '../../types/common'
+import { calculateNewTarget, checkCanMove, handleMovement } from '../../helpers/common'
 
 interface HeroProps {
   texture: Texture
@@ -12,14 +14,49 @@ interface HeroProps {
 
 export const Hero = ({ texture, onMove }: HeroProps) => {
   const position = useRef({ x: DEFAULT_POS_X, y: DEFAULT_POS_Y })
+  const targetPosition = useRef<Position>(null)
+  const currentDirection = useRef<Direction>(null)
 
   const { getControlsDirection } = useHeroControls()
-  const test = getControlsDirection()
-  console.log(test)
+  const direction = getControlsDirection()
+
+  const setNextTarget = useCallback((direction: Direction) => {
+    if (targetPosition.current) return
+
+    const { x, y } = position.current
+    currentDirection.current = direction
+    const newTarget = calculateNewTarget(x, y, direction)
+
+    if (checkCanMove(newTarget)) {
+      targetPosition.current = newTarget
+      return
+    }
+  }, [])
 
   useEffect(() => {
     onMove(position.current.x, position.current.y)
   }, [onMove])
+
+  useTick(delta => {
+    if (direction) {
+      setNextTarget(direction)
+    }
+
+    if (targetPosition.current) {
+      const { position: newPosition, completed } = handleMovement(
+        position.current,
+        targetPosition.current,
+        MOVE_SPEED,
+        delta
+      )
+
+      position.current = newPosition
+
+      if (completed) {
+        targetPosition.current = null
+      }
+    }
+  })
 
   return (
     <Container>
