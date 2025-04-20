@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Container, Sprite, useTick } from '@pixi/react'
 import { Texture } from '@pixi/core'
 
-import { DEFAULT_POS_X, DEFAULT_POS_Y, MOVE_SPEED } from '../../constants/game-world'
+import { useHeroAnimation } from './useHeroAnimation'
 import { useHeroControls } from './useHeroControls'
+import { ANIMATION_SPEED, DEFAULT_POS_X, DEFAULT_POS_Y, MOVE_SPEED } from '../../constants/game-world'
 import { Direction, Position } from '../../types/common'
 import { calculateNewTarget, checkCanMove, handleMovement } from '../../helpers/common'
 
@@ -19,6 +20,15 @@ export const Hero = ({ texture, onMove }: HeroProps) => {
 
   const { getControlsDirection } = useHeroControls()
   const direction = getControlsDirection()
+  const isMoving = useRef(false)
+
+  const { sprite, updateSprite } = useHeroAnimation({
+    texture,
+    frameHeight: 64,
+    frameWidth: 64,
+    totalFrames: 9,
+    animationSpeed: ANIMATION_SPEED
+  })
 
   const setNextTarget = useCallback((direction: Direction) => {
     if (targetPosition.current) return
@@ -51,16 +61,24 @@ export const Hero = ({ texture, onMove }: HeroProps) => {
       )
 
       position.current = newPosition
+      isMoving.current = true
 
       if (completed) {
+        const { x, y } = position.current
+        onMove(x, y)
         targetPosition.current = null
+        isMoving.current = false
       }
     }
+
+    updateSprite(currentDirection.current!, isMoving.current)
   })
 
   return (
     <Container>
-      <Sprite texture={texture} x={position.current.x} y={position.current.y} scale={0.5} anchor={[1, 0.5]} />
+      {sprite && (
+        <Sprite texture={sprite.texture} x={position.current.x} y={position.current.y} scale={0.5} anchor={[1, 0.5]} />
+      )}
     </Container>
   )
 }
