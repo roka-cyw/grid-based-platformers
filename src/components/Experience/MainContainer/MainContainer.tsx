@@ -2,6 +2,7 @@ import { PropsWithChildren, useCallback, useMemo, useState } from 'react'
 import { Container, Sprite } from '@pixi/react'
 import { Texture } from '@pixi/core'
 
+import { Camera } from '../../Camera/Camera'
 import { Level } from '../../Levels/Level'
 import { Hero } from '../../Hero/Hero'
 import { TILE_SIZE } from '../../../constants/game-world'
@@ -27,8 +28,10 @@ export const MainContainer = ({ canvasSize, children }: PropsWithChildren<MainCo
     <Container>
       <Sprite texture={backgroundTexture} width={canvasSize.width} height={canvasSize.height} />
       {children}
-      <Level />
-      <Hero texture={heroTexture} onMove={updateHeroPosition} />
+      <Camera heroPosition={heroPosition} canvasSize={canvasSize}>
+        <Level />
+        <Hero texture={heroTexture} onMove={updateHeroPosition} />
+      </Camera>
     </Container>
   )
 }

@@ -69,3 +69,7 @@ export const handleMovement = (
     completed: false
   }
 }
+
+export const linearInterpolation = (start: number, end: number) => {
+  return start + (end - start) * 0.03
+}
