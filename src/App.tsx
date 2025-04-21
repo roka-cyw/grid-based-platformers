@@ -1,7 +1,7 @@
-import { Experience } from './components/Experience/Experience'
+import { Scene } from './components/Scene/Scene'
 
 const App = () => {
-  return <Experience />
+  return <Scene />
 }
 
 export default App

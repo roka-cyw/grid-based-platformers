@@ -77,7 +77,7 @@ export const Hero = ({ texture, onMove }: HeroProps) => {
   return (
     <Container>
       {sprite && (
-        <Sprite texture={sprite.texture} x={position.current.x} y={position.current.y} scale={0.5} anchor={[1, 0.5]} />
+        <Sprite texture={sprite.texture} x={position.current.x} y={position.current.y} scale={0.5} anchor={[1, 0.8]} />
       )}
     </Container>
   )

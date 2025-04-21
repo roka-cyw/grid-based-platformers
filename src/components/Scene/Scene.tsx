@@ -4,7 +4,7 @@ import { Stage } from '@pixi/react'
 import { MainContainer } from './MainContainer/MainContainer'
 import { calcutaleCanvasSize } from '../../helpers/common'
 
-export const Experience = () => {
+export const Scene = () => {
   const [canvasSize, setCanvasSize] = useState(calcutaleCanvasSize)
 
   const updateCanvasSize = useCallback(() => {
